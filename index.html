@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurse Emerge - Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="photo/logo.png" alt="Nurse Emerge Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="specialties.html">Specialties</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="new-post.html">Add Post</a></li>
+      </ul>
+      <div class="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </nav>
+  </header>
+  <div id="slider-container">
+    <div id="slider">
+     <!-- slide images -->
+     <img class="slide" src="photo/emerge.jpg" alt="Staleg Beauty">
+     <img class="slide" src="photo/20251016_132601~2.jpg" alt="Staleg Beauty">
+   </div>
+ </div>
+  <main>
+    <section id="hero" class="fade-in">
+      <h1>Welcome to Nurse Emerge</h1>
+      <p>An innovative organization dedicated To bring light into diverse nursing specialties that empowers nurses and student nurses in Africa to unlock their full potential and contribute meaningfully to the global healthcare landscape through specialization and professional growth.
+      </p>
+      <img src="photo/Photoroom-20250917_203509.png" alt="Nurse caring for patient" class="hero-image">
+    </section>
+    <section id="nursing-importance" class="fade-in">
+      <h2>Why Nurse Emerge Matters</h2>
+      <div class="content-grid">
+        <div class="content-card">
+          <i class="fas fa-heartbeat"></i>
+          <h3>Guidance and Mentorship</h3>
+          <p>Providing direction and mentorship to nurses and nursing students to help them navigate their journey into specialized areas.</p>
+        </div>
+        <div class="content-card">
+          <i class="fas fa-graduation-cap"></i>
+          <h3>Education</h3>
+          <p>We explore diverse nursing specialties, delivering in-depth knowledge about each field’s requirements, challenges, and rewards.</p>
+        </div>
+        <div class="content-card">
+          <i class="fas fa-users"></i>
+          <h3>Career Development</h3>
+          <p>Through educational resources, networking opportunities, and personalized support, we empower nurses to build a fulfilling and impactful career in nursing.</p>
+        </div>
+      </div>
+    </section>
+    <section id="nursing-tips" class="fade-in">
+      <h2> Our Mission</h2>
+      <div id="tips-container"></div>
+    </section>
+    <section id="recent-blogs" class="fade-in">
+      <h2>Recent Blogs</h2>
+      <div id="recent-posts-container" class="posts-grid"></div>
+      <a href="blog.html" class="elegant-button">View All Blogs</a>
+    </section>
+  </main>
+  <footer>
+    <div class="social-links">
+      <a href="https://instagram.com/nurseemerge"><i class="fab fa-instagram"></i></a>
+      <a href="https://youtube.com/@NurseEmerge"><i class="fab fa-youtube"></i></a>
+      <a href="https://twitter.com/NurseEmerge"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.linkedin.com/company/nurseemerge/"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.facebook.com/profile.php?id=61551852391530"><i class="fab fa-facebook"></i></a>
+    </div>
+    <p>&copy; 2025 Nurse Emerge. All rights reserved.</p>
+  </footer>
+  <script src="scripts.js"></script>
+</body>
+</html>
