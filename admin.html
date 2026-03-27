@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Nurse Emerge</title>
+  
+  <!-- Meta Tags -->
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="admin-card">
+      <div style="text-align: center; margin-bottom: 25px;">
+        <img src="photo/logo.png" alt="Nurse Emerge" style="height: 60px; border-radius: 8px;">
+      </div>
+      
+      <h1><i class="fas fa-lock"></i> Admin Login</h1>
+
+      <form id="login-form">
+        <div class="form-group">
+          <input type="email" id="email" placeholder="Email Address" required autocomplete="email">
+        </div>
+        
+        <div class="form-group">
+          <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+        </div>
+        
+        <button type="submit" class="btn">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+      </form>
+
+      <p id="login-message" style="margin-top: 20px;"></p>
+      
+      <div style="text-align: center; margin-top: 25px;">
+        <a href="index.html" style="color: var(--gray); font-size: 0.9rem;">
+          <i class="fas fa-arrow-left"></i> Back to Website
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGE-PRlwsZlMzQOgsKI9NRxtv4Lac3t5o",
+      authDomain: "nurse-emerge.firebaseapp.com",
+      projectId: "nurse-emerge"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Login Form Handler
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const message = document.getElementById("login-message");
+      const submitBtn = e.target.querySelector("button[type='submit']");
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+      message.textContent = "";
+      message.className = "";
+
+      // Sign in with Firebase Auth
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Login successful
+          message.textContent = "✅ Login successful! Redirecting...";
+          message.className = "message success";
+          
+          setTimeout(() => {
+            window.location.href = "new-post.html";
+          }, 1000);
+        })
+        .catch((error) => {
+          // Login failed
+          console.error("Login error:", error);
+          
+          let errorMsg = "❌ Invalid email or password.";
+          
+          if (error.code === 'auth/user-not-found') {
+            errorMsg = "❌ No account found with this email.";
+          } else if (error.code === 'auth/wrong-password') {
+            errorMsg = "❌ Incorrect password.";
+          } else if (error.code === 'auth/invalid-email') {
+            errorMsg = "❌ Please enter a valid email address.";
+          } else if (error.code === 'auth/too-many-requests') {
+            errorMsg = "❌ Too many failed attempts. Please try again later.";
+          }
+          
+          message.textContent = errorMsg;
+          message.className = "message error";
+          
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        });
+    });
+
+    // Check if already logged in
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is already logged in, redirect to dashboard
+        window.location.href = "new-post.html";
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Nurse Emerge</title>
+  
+  <!-- Meta Tags -->
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  
+  <!-- Quill Editor -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  
+  <!-- Cloudinary -->
+  <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">
+        <img src="photo/logo.png" alt="Nurse Emerge Logo">
+      </a>
+    </div>
+
+    <ul class="nav-menu">
+      <li><a href="index.html">View Website</a></li>
+      <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD -->
+  <main class="dashboard">
+    <div class="dashboard-header">
+      <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+      <div>
+        <span id="user-email" style="color: var(--gray); margin-right: 15px;"></span>
+        <button id="logout-btn" class="btn btn-secondary" style="width: auto; display: inline-block;">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- CREATE POST SECTION -->
+    <section class="dashboard-section">
+      <h2><i class="fas fa-pen"></i> Create New Blog Post</h2>
+      
+      <form id="post-form">
+        <div class="form-group">
+          <input type="text" id="title" placeholder="Post Title" required>
+        </div>
+
+        <div class="form-group">
+          <div id="editor"></div>
+        </div>
+
+        <div class="form-group">
+          <button type="button" id="upload-btn" class="btn btn-secondary" style="width: auto;">
+            <i class="fas fa-image"></i> Upload Featured Image
+          </button>
+          <input type="hidden" id="imagePath">
+        </div>
+
+        <div id="image-preview" class="image-preview"></div>
+
+        <button type="submit" class="btn">
+          <i class="fas fa-paper-plane"></i> Publish Post
+        </button>
+      </form>
+
+      <p id="post-msg" style="margin-top: 20px;"></p>
+    </section>
+
+    <!-- MANAGE POSTS SECTION -->
+    <section class="dashboard-section">
+      <h2><i class="fas fa-list"></i> Manage Posts</h2>
+      <div id="posts-list" class="posts-list">
+        <p style="color: var(--gray);"><i class="fas fa-spinner fa-spin"></i> Loading posts...</p>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER SUBSCRIBERS SECTION -->
+    <section class="dashboard-section">
+      <h2><i class="fas fa-envelope"></i> Newsletter Subscribers</h2>
+      <div id="newsletter-list" class="newsletter-list">
+        <p style="color: var(--gray);"><i class="fas fa-spinner fa-spin"></i> Loading subscribers...</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 Nurse Emerge. Admin Dashboard.</p>
+  </footer>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGE-PRlwsZlMzQOgsKI9NRxtv4Lac3t5o",
+      authDomain: "nurse-emerge.firebaseapp.com",
+      projectId: "nurse-emerge"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // Auth Protection - Redirect if not logged in
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "admin.html";
+      } else {
+        document.getElementById("user-email").textContent = user.email;
+      }
+    });
+
+    // Logout Handler
+    const logout = () => {
+      auth.signOut().then(() => {
+        window.location.href = "admin.html";
+      }).catch(err => {
+        console.error("Logout error:", err);
+      });
+    };
+
+    document.getElementById("logout-btn").addEventListener("click", logout);
+    document.getElementById("logout-link").addEventListener("click", (e) => {
+      e.preventDefault();
+      logout();
+    });
+
+    // Initialize Quill Editor
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      placeholder: 'Write your blog post content here...',
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'color': [] }, { 'background': [] }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      }
+    });
+
+    // Cloudinary Upload Widget
+    const widget = cloudinary.createUploadWidget({
+      cloudName: 'docfeepkt',
+      uploadPreset: 'nurse_emerge',
+      sources: ['local', 'url', 'camera'],
+      multiple: false,
+      maxFileSize: 5000000, // 5MB
+      resourceType: 'image'
+    }, (error, result) => {
+      if (!error && result.event === "success") {
+        const url = result.info.secure_url;
+        document.getElementById("imagePath").value = url;
+        document.getElementById("image-preview").innerHTML = `
+          <img src="${url}" alt="Preview">
+          <p style="margin-top: 10px; color: var(--gray); font-size: 0.9rem;">
+            <i class="fas fa-check-circle" style="color: green;"></i> Image uploaded successfully
+          </p>
+        `;
+      }
+      if (error) {
+        console.error("Upload error:", error);
+        showMessage("post-msg", "❌ Image upload failed. Please try again.", "error");
+      }
+    });
+
+    document.getElementById("upload-btn").addEventListener("click", () => {
+      widget.open();
+    });
+
+    // Create Post Handler
+    document.getElementById("post-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const titleInput = document.getElementById("title");
+      const imagePathInput = document.getElementById("imagePath");
+      const message = document.getElementById("post-msg");
+      const submitBtn = e.target.querySelector("button[type='submit']");
+
+      const title = titleInput.value.trim();
+      const content = quill.root.innerHTML;
+      const imagePath = imagePathInput.value;
+
+      // Validation
+      if (!title) {
+        showMessage("post-msg", "❌ Please enter a post title.", "error");
+        return;
+      }
+
+      if (content === "<p><br></p>" || !content.trim()) {
+        showMessage("post-msg", "❌ Please write some content for your post.", "error");
+        return;
+      }
+
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
+
+      try {
+        await db.collection("posts").add({
+          title: title,
+          content: content,
+          imagePath: imagePath || null,
+          date: firebase.firestore.Timestamp.now(),
+          author: auth.currentUser ? auth.currentUser.email : 'admin'
+        });
+
+        showMessage("post-msg", "✅ Post published successfully!", "success");
+        
+        // Reset form
+        titleInput.value = "";
+        quill.setContents([]);
+        imagePathInput.value = "";
+        document.getElementById("image-preview").innerHTML = "";
+        
+        // Reload posts list
+        loadPosts();
+        
+      } catch (error) {
+        console.error("Publish error:", error);
+        showMessage("post-msg", "❌ Failed to publish post. Please try again.", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Publish Post';
+      }
+    });
+
+    // Load Posts
+    async function loadPosts() {
+      const container = document.getElementById("posts-list");
+      
+      try {
+        const snapshot = await db.collection("posts").orderBy("date", "desc").get();
+        
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="color: var(--gray);">No posts yet.</p>';
+          return;
+        }
+
+        container.innerHTML = "";
+        
+        snapshot.forEach(doc => {
+          const post = doc.data();
+          const date = post.date ? post.date.toDate().toLocaleDateString() : 'Unknown date';
+          
+          container.innerHTML += `
+            <div class="post-item">
+              <div>
+                <strong>${escapeHtml(post.title)}</strong>
+                <small style="color: var(--gray); display: block;">${date}</small>
+              </div>
+              <button class="btn btn-danger" onclick="deletePost('${doc.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          `;
+        });
+        
+      } catch (error) {
+        console.error("Load posts error:", error);
+        container.innerHTML = '<p style="color: #dc3545;"><i class="fas fa-exclamation-circle"></i> Error loading posts.</p>';
+      }
+    }
+
+    // Delete Post
+    window.deletePost = async (id) => {
+      if (!confirm("Are you sure you want to delete this post? This action cannot be undone.")) {
+        return;
+      }
+      
+      try {
+        await db.collection("posts").doc(id).delete();
+        showMessage("post-msg", "✅ Post deleted successfully!", "success");
+        loadPosts();
+      } catch (error) {
+        console.error("Delete error:", error);
+        showMessage("post-msg", "❌ Failed to delete post.", "error");
+      }
+    };
+
+    // Load Newsletter Subscribers
+    async function loadNewsletter() {
+      const container = document.getElementById("newsletter-list");
+      
+      try {
+        const snapshot = await db.collection("newsletter").orderBy("date", "desc").get();
+        
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="color: var(--gray);">No subscribers yet.</p>';
+          return;
+        }
+
+        container.innerHTML = `<p style="margin-bottom: 15px;"><strong>Total Subscribers: ${snapshot.size}</strong></p>`;
+        
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const date = data.date ? data.date.toDate().toLocaleDateString() : '';
+          
+          container.innerHTML += `
+            <div class="newsletter-item">
+              ${escapeHtml(data.email)}
+              ${date ? `<small style="color: var(--gray); margin-left: auto;">${date}</small>` : ''}
+            </div>
+          `;
+        });
+        
+      } catch (error) {
+        console.error("Load newsletter error:", error);
+        container.innerHTML = '<p style="color: #dc3545;"><i class="fas fa-exclamation-circle"></i> Error loading subscribers.</p>';
+      }
+    }
+
+    // Utility Functions
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function showMessage(elementId, text, type) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      element.textContent = text;
+      element.className = `message ${type}`;
+      element.style.display = "block";
+      
+      setTimeout(() => {
+        element.style.display = "none";
+      }, 5000);
+    }
+
+    // Mobile Menu Toggle
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector(".nav-menu");
+    
+    if (menuToggle && navMenu) {
+      menuToggle.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        const icon = menuToggle.querySelector("i");
+        if (icon) {
+          if (navMenu.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+          } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        }
+      });
+    }
+
+    // Initial Load
+    loadPosts();
+    loadNewsletter();
+  </script>
+
+</body>
+</html>

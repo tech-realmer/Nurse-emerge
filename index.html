@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurse Emerge - Empowering Nurses Across Africa</title>
+  
+  <meta name="description" content="Nurse Emerge guides, mentors, and empowers nurses across Africa to discover their true potential through specialization.">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">
+        <img src="photo/logo.png" alt="Nurse Emerge Logo">
+      </a>
+    </div>
+
+    <ul class="nav-menu">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="specialties.html">Specialties</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Empowering Nurses Across Africa</h1>
+      <p>Discover your specialty, grow your career, and connect with opportunities in modern healthcare.</p>
+      <a href="blog.html" class="hero-btn">Explore Blog</a>
+    </div>
+  </section>
+
+  <section class="mission-section">
+    <div class="container">
+      <div class="mission-card">
+        <h2>Our Mission</h2>
+        <p>To guide, mentor, and empower nurses and student nurses across the World to discover their true potential through specialization.</p>
+      </div>
+
+      <div class="mission-card">
+        <h2>Our Vision</h2>
+        <p>To bring light into diverse nursing specialties that empowers nurses and student nurses in Africa to unlock their full potential and contribute meaningfully to the global healthcare landscape through specialization and professional growth.
+        </p>
+      </div>
+
+      <div class="mission-card">
+        <h2>Our Impact</h2>
+        <p>Connecting nurses with mentorship, resources, and opportunities that transform careers and healthcare systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="health-tips">
+    <h2>Quick Health Tips</h2>
+    <div class="tips-container">
+      <div class="tip-card">
+        <i class="fas fa-heartbeat"></i>
+        <h3>Stay Active</h3>
+        <p>Regular exercise improves heart health and reduces stress.</p>
+      </div>
+
+      <div class="tip-card">
+        <i class="fas fa-apple-alt"></i>
+        <h3>Eat Healthy</h3>
+        <p>Balanced diets improve immunity and overall wellness.</p>
+      </div>
+
+      <div class="tip-card">
+        <i class="fas fa-bed"></i>
+        <h3>Sleep Well</h3>
+        <p>7–8 hours of sleep boosts recovery and mental clarity.</p>
+      </div>
+
+      <div class="tip-card">
+        <i class="fas fa-brain"></i>
+        <h3>Mental Health</h3>
+        <p>Take breaks and manage stress for a healthy lifestyle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="latest-articles">
+    <h2>Latest Articles</h2>
+    <div id="blog-container" class="blog-container">
+      <div class="loading-state" style="text-align:center;padding:40px;grid-column:1/-1;">
+        <i class="fas fa-spinner fa-spin" style="font-size:30px;color:var(--primary);"></i>
+        <p style="margin-top:15px;">Loading articles...</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <div class="newsletter-container">
+      <h2>Subscribe to Our Newsletter</h2>
+      <p>Get updates, nursing tips, and new blog posts directly to your inbox.</p>
+      
+      <form id="newsletter-form" class="newsletter-form">
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      
+      <p id="newsletter-msg" style="display:none;"></p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="social-links">
+      <a href="https://instagram.com/nurseemerge" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://youtube.com/@NurseEmerge" target="_blank" rel="noopener" aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://twitter.com/NurseEmerge" target="_blank" rel="noopener" aria-label="Twitter">
+        <i class="fab fa-x-twitter"></i>
+      </a>
+      <a href="https://linkedin.com/company/nurseemerge" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://facebook.com/profile.php?id=61551852391530" target="_blank" rel="noopener" aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="https://t.me/nurseemerge" target="_blank" rel="noopener" aria-label="Telegram">
+        <i class="fab fa-telegram"></i>
+      </a>
+    </div>
+    <p>&copy; 2026 Nurse Emerge. All rights reserved.</p>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

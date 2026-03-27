@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article - Nurse Emerge</title>
+  
+  <!-- Meta Tags -->
+  <meta name="description" content="Read detailed nursing insights and professional knowledge from Nurse Emerge.">
+  <meta name="keywords" content="nursing article, healthcare knowledge, nurse education">
+  <meta name="author" content="Nurse Emerge">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Nurse Emerge Article">
+  <meta property="og:description" content="Professional nursing insights and healthcare knowledge.">
+  <meta property="og:type" content="article">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">
+        <img src="photo/logo.png" alt="Nurse Emerge Logo">
+      </a>
+    </div>
+
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="specialties.html">Specialties</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+
+    <div class="menu-toggle">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section class="post-section">
+      <a href="blog.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Blog
+      </a>
+      
+      <article id="post-container" class="post-container">
+        <h1 id="post-title"></h1>
+        <p id="post-date" class="post-date"></p>
+        <img id="post-image" class="post-image" src="" alt="" style="display: none;">
+        <div id="post-content"></div>
+      </article>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-links">
+      <a href="https://instagram.com/nurseemerge" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://youtube.com/@NurseEmerge" target="_blank" rel="noopener" aria-label="YouTube">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://twitter.com/NurseEmerge" target="_blank" rel="noopener" aria-label="Twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://linkedin.com/company/nurseemerge" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://facebook.com/profile.php?id=61551852391530" target="_blank" rel="noopener" aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Nurse Emerge. All rights reserved.</p>
+  </footer>
+
+  <!-- MAIN SCRIPT -->
+  <script src="scripts.js"></script>
+</body>
+</html>
